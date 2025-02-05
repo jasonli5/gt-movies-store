@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'home.apps.MoviesConfig',
+    'movies.apps.MoviesConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,8 +55,7 @@ ROOT_URLCONF = "gt_movies_store.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "gt_movies_store/templates")]
-        ,
+        "DIRS": [os.path.join(BASE_DIR, "gt_movies_store/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -124,5 +123,5 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_DIRS = [
-    BASE_DIR / "gt_movies_store/static/",
+    BASE_DIR / 'gt_movies_store/static/',
 ]
