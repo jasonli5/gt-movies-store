@@ -2,4 +2,14 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-  }
+}
+
+.img-card-200 {
+  width: fit-content;
+  max-height: 200px;
+}
+
+.img-card-400 {
+  width: fit-content;
+  max-height: 400px;
+}
