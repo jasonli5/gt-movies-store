@@ -13,3 +13,54 @@ html, body {
   width: fit-content;
   max-height: 400px;
 }
+
+.bg-index {
+  background: url("/static/img/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center vertically */
+  text-align: center; /* Center horizontally */
+}
+
+.welcome-container {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  height: 100px; /* Adjust height as needed */
+  background-color: transparent; /* Optional, can match background */
+  text-align: center; /* Ensures text alignment */
+  color: black; /* Matches the white font color */
+}
+
+.navbar a.nav-link {
+  color: #FFFEF6 !important;
+}
+.bg-dark {
+  background-color: #2E2E2E !important;
+}
+.ms-footer {
+  background-color: #202020;
+}
+.ms-footer p {
+  color: #7F7F7F;
+  font-size: 13px;
+}
+.ms-footer a:hover {
+  color: #6ab43e;
+  text-decoration: none;
+}
+.ms-footer-bottom span{
+  font-size: 13px;
+  line-height: 38px;
+}
+.ms-footer-bottom a {
+  color: #6ab43e;
+  text-decoration: none;
+}
+.ms-footer-bottom a:hover {
+  color: #fff;
+}
