@@ -23,8 +23,13 @@ movies = [
 
 def index(request):
     template_data = {}
+    search_term = request.GET.get('search')
+    if search_term:
+        movies =Movie.objects.filter(name__icontains=search_term)
+    else:
+        movies = Movie.objects.all()
     template_data['title'] = 'Movies'
-    template_data['movies'] = Movie.objects.all()
+    template_data['movies'] = movies
     return render(request, 'movies/index.html',
                   {'template_data': template_data})
 
