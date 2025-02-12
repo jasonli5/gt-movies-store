@@ -16,7 +16,7 @@ class CustomPasswordResetDoneView(PasswordResetDoneView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['template_data'] = {'title': 'Confirmation Message'}  # ✅ Set Title Here
+        context['template_data'] = {'title': 'Confirmation Message'}
         return context
 
 
@@ -30,7 +30,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['template_data'] = {'title': 'Reset Password Request'}  # ✅ Set Title Here
+        context['template_data'] = {'title': 'Reset Password Request'}
         return context
 
     
@@ -41,7 +41,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["template_data"] = {"title": "Reset Your Password"}  # Set the title here
+        context["template_data"] = {"title": "Reset Your Password"}
         return context
     
 

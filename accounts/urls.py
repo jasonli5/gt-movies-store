@@ -10,7 +10,7 @@ urlpatterns = [
      path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
      path('password-reset/done/',  
           CustomPasswordResetDoneView.as_view(),  
-          name='password_reset_done'),  # ✅ Match this name to the reverse_lazy in views.py
+          name='password_reset_done'),
 
      path(
         'password-reset-confirm/<uidb64>/<token>/',
