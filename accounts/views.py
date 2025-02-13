@@ -2,6 +2,48 @@ from django.shortcuts import redirect, render
 from .forms import CustomErrorList, CustomUserCreationForm
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.contrib.auth.views import PasswordResetDoneView
+
+from django.contrib.auth.views import PasswordResetDoneView
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'accounts/password_reset_done.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['template_data'] = {'title': 'Confirmation Message'}
+        return context
+
+
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/password_reset_email.html'
+    subject_template_name = 'accounts/password_reset_subject.txt'
+    success_url = reverse_lazy('password_reset_done')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['template_data'] = {'title': 'Reset Password Request'}
+        return context
+
+    
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "accounts/password_reset_confirm.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["template_data"] = {"title": "Reset Your Password"}
+        return context
+    
 
 @login_required
 def logout(request):
@@ -37,9 +79,13 @@ def signup(request):
     elif request.method == 'POST':
         form = CustomUserCreationForm(request.POST, error_class=CustomErrorList)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.email = form.cleaned_data["email"]
+            user.save()
+            auth_login(request, user)
             return redirect('accounts.login')
         else:
             template_data['form'] = form
-            return render(request, 'accounts/signup.html',
-                {'template_data': template_data})
+            return render(request, 'accounts/signup.html',{'template_data': template_data})
+
+    return render(request, "accounts/register.html", {"form": form})

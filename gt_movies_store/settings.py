@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+import ssl
+import certifi
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,7 +60,10 @@ ROOT_URLCONF = 'gt_movies_store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'gt_movies_store/templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'gt_movies_store/templates'),
+            os.path.join(BASE_DIR, 'accounts/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,3 +135,15 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+os.environ['SSL_CERT_FILE'] = "/Library/Frameworks/Python.framework/Versions/3.13/etc/openssl/cert.pem"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dmunagapati@gmail.com'
+EMAIL_HOST_PASSWORD = 'pxhl iktl qbgr hmtv'  # Use App Password, not your real password
+EMAIL_SSL_CONTEXT = ssl._create_unverified_context()
+print(ssl.get_default_verify_paths())
+
