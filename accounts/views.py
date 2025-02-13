@@ -8,8 +8,7 @@ from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.views import PasswordResetDoneView
-
-from django.contrib.auth.views import PasswordResetDoneView
+from django.contrib.auth.models import User
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'accounts/password_reset_done.html'
@@ -89,3 +88,11 @@ def signup(request):
             return render(request, 'accounts/signup.html',{'template_data': template_data})
 
     return render(request, "accounts/register.html", {"form": form})
+
+@login_required
+def orders(request):
+    template_data = {}
+    template_data['title'] = 'Orders'
+    template_data['orders'] = request.user.order_set.all()
+    return render(request, 'accounts/orders.html',
+        {'template_data': template_data})
