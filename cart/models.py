@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from gt_movies_store import settings
 from movies.models import Movie
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     total = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE)
     def __str__(self):
         return str(self.id) + ' - ' + self.user.username
