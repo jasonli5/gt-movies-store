@@ -13,6 +13,9 @@ import os
 from pathlib import Path
 import ssl
 import certifi
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*t0d-vk^epb%ox^+7ab4q=3gc2^7hc)n23%7py-f7ef&*#cb)6'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-default-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -137,12 +140,15 @@ MEDIA_URL = '/media/'
 
 os.environ['SSL_CERT_FILE'] = "/Library/Frameworks/Python.framework/Versions/3.13/etc/openssl/cert.pem"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Debug mode
+# Uncomment the following for real email sending:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'dmunagapati@gmail.com'
-EMAIL_HOST_PASSWORD = 'pxhl iktl qbgr hmtv'  # Use App Password, not your real password
-EMAIL_SSL_CONTEXT = ssl._create_unverified_context()
-print(ssl.get_default_verify_paths())
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
+# Secure SSL Certificate Handling
+EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
