@@ -1,5 +1,12 @@
 from django.contrib import admin
 from .models import Order, Item
-admin.site.register(Order)
+
+class ItemInline(admin.StackedInline):
+    model = Item
+    extra = 1
+
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [ItemInline]
+
+admin.site.register(Order, OrderAdmin)
 admin.site.register(Item)
-# Register your models here.
