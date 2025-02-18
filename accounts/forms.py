@@ -1,8 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django import forms
+from .models import CustomUser
 
 class CustomErrorList(ErrorList):
     def __str__(self):
@@ -26,12 +27,11 @@ class CustomUserCreationForm(UserCreationForm):
                 {'class': 'form-control'}
             )
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email is already in use. Please log in or reset your password.")
-        return email
-
     class Meta: 
-        model = User
+        model = CustomUser
         fields = ["username", "email", "password1", "password2"]
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ("email", "username")
