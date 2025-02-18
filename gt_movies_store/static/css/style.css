@@ -5,12 +5,12 @@ html, body {
 }
 
 .img-card-200 {
-  width: fit-content;
+  width: auto;
   max-height: 200px;
 }
 
 .img-card-400 {
-  width: fit-content;
+  width: auto;
   max-height: 400px;
 }
 
