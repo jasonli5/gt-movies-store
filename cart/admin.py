@@ -6,6 +6,7 @@ class ItemInline(admin.StackedInline):
     extra = 1
 
 class OrderAdmin(admin.ModelAdmin):
+    readonly_fields = ('total',)
     inlines = [ItemInline]
 
 admin.site.register(Order, OrderAdmin)
