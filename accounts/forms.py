@@ -1,15 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import CustomUser
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
-from django.contrib.auth.models import User
-from django import forms
-
-class CustomErrorList(ErrorList):
-    def __str__(self):
-        if not self:
-            return ''
-        return mark_safe(''.join([
-            f'<div class="alert alert-danger" role="alert">{e}</div>' for e in self]))
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
@@ -27,11 +20,27 @@ class CustomUserCreationForm(UserCreationForm):
             )
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email is already in use. Please log in or reset your password.")
+        """
+        Validate that the email is unique.
+        """
+        email = self.cleaned_data.get("email")
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("A user with this email already exists.")
         return email
 
     class Meta: 
-        model = User
+        model = CustomUser
         fields = ["username", "email", "password1", "password2"]
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ("email", "username")
+
+class CustomErrorList(ErrorList):
+    def __str__(self):
+        if not self:
+            return ''
+        return mark_safe(''.join([
+            f'<div class="alert alert-danger" role="alert">{e}</div>' for e in self]))
