@@ -1,25 +1,28 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-
+from django.core.exceptions import ValidationError
+from django.apps import apps
 
 class CustomUserManager(BaseUserManager):
-    """
-    Custom user model manager where email is the unique identifiers
-    for authentication instead of usernames.
-    """
     def create_user(self, email, username, password, **extra_fields):
-        """
-        Create and save a user with the given email and password.
-        """
         if not email:
             raise ValueError(_("The Email must be set"))
         if not username:
             raise ValueError(_("The Username must be set"))
+
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, **extra_fields)
+
+        # Fetch model dynamically to avoid circular import
+        CustomUser = apps.get_model('accounts', 'CustomUser')
+
+        if CustomUser.objects.filter(email=email).exists():
+            raise ValidationError(_("A user with this email already exists."))
+
+        user = CustomUser(username=username, email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
+
 
     def create_superuser(self, email, username, password, **extra_fields):
         """
@@ -33,4 +36,5 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_staff=True."))
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
+
         return self.create_user(email, username, password, **extra_fields)
